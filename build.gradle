@@ -1,0 +1,35 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.1.2'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+task buildDeepLinkDoc(type: org.gradle.api.tasks.Exec) {
+    def project = project(':app');
+    def path = project.projectDir.absolutePath;
+    println(path);
+    String codePath = "${path}\\src\\main\\java\\";
+    String apiPath = "${path}\\doc\\";
+    String JAVA_HOME = System.getenv("JAVA_HOME");
+    println(codePath)
+    println(JAVA_HOME)
+    commandLine "${JAVA_HOME}\\bin\\javadoc.exe", "javadoc", "-sourcepath", codePath, "-subpackages", "pro.su.com.androidpro", "-protected", "-d", apiPath, "-encoding", "UTF-8","-charset","UTF-8";
+}
